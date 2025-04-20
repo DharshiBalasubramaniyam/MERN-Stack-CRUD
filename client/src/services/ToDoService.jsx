@@ -37,9 +37,9 @@ function ToDoService() {
         setLoading(false)
     }
 
-    const addToDo = async (task, category) => {
+    const addToDo = async (task, category, datetime) => {
         setLoading(true)
-        await axios.post(`${API_BASE_URL}/new`, { task: task, category: category })
+        await axios.post(`${API_BASE_URL}/new`, { task: task, category: category, datetime: datetime })
             .then((response) => {
                 setError(false)
                 toast.success(response.data.message)
@@ -52,9 +52,9 @@ function ToDoService() {
         getAllToDo()
     }
 
-    const editToDo = async (id, task, category, isCompleted) => {
+    const editToDo = async (id, task, category, isCompleted, datetime) => {
         setLoading(true)
-        await axios.put(`${API_BASE_URL}/${id}`, { task: task, category: category, isCompleted: isCompleted })
+        await axios.put(`${API_BASE_URL}/${id}`, { task: task, category: category, isCompleted: isCompleted, datetime: datetime })
             .then((response) => {
                 setError(false)
                 setToDo(null)

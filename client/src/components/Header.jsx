@@ -1,6 +1,6 @@
 function Header() {
     return (
-        <div className="w-full px-8 py-4 bg-blue-900">
+        <div className="w-full px-8 py-4 bg-blue-900 z-10">
             <h1 className="text-white text-2xl text-center font-bold">MyToDo</h1>
         </div>
     )

@@ -2,7 +2,7 @@ const ToDo = require("../models/ToDo");
 
 exports.createToDo = async (req, res, next) => {
     try {
-        const { task, category } = req.body;
+        const { task, category, datetime } = req.body;
 
         const existingToDo = await ToDo.findOne({ task });
 
@@ -12,7 +12,8 @@ exports.createToDo = async (req, res, next) => {
 
         const data = {
             task: task,
-            category: category
+            category: category,
+            datetime: datetime
         };
 
         await ToDo.create(data);
@@ -25,7 +26,7 @@ exports.createToDo = async (req, res, next) => {
 
 exports.getAllToDo = async (req, res, next) => {
     try {
-        const allToDo = await ToDo.find();
+        const allToDo = await ToDo.find().sort({ datetime: 1 });;
         res.status(200).json({ success: true, message: allToDo });
     } catch (error) {
         next(error);
@@ -47,7 +48,7 @@ exports.getToDoById = async (req, res, next) => {
 
 exports.editToDo = async (req, res, next) => {
     try {
-        const { task, category, isCompleted } = req.body;
+        const { task, category, isCompleted, datetime } = req.body;
         const { id } = req.params;
 
         const existingToDo = await ToDo.findOne({ _id: id });
@@ -56,7 +57,7 @@ exports.editToDo = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Task not found!" });
         }
 
-        const data = { task, category, isCompleted };
+        const data = { task, category, isCompleted, datetime };
         await ToDo.updateOne({ _id: id }, { $set: data });
 
         res.status(200).json({ success: true, message: "Task successfully edited!" });

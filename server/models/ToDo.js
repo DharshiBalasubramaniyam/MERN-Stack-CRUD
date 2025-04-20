@@ -13,6 +13,9 @@ const ToDoSchema = mongoose.Schema({
     isCompleted: {
         type: Boolean,
         default: false
+    },
+    datetime: {
+        type: Date,
     }
 }, { timestamps: true })
 
