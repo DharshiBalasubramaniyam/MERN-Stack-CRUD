@@ -16,6 +16,7 @@ The full form of CRUD is Create, Read, Update, and Delete. These are the four ba
 These operations are fundamental to managing and manipulating data in a database, ensuring that users can interact with the data effectively.
 
 
+
 | Task | HTTP Method | Route Path |
 
 |----------|----------|----------|
@@ -29,6 +30,7 @@ These operations are fundamental to managing and manipulating data in a database
 | Edit a task    | ![PUT](https://img.shields.io/badge/PUT-yellow)   | `/todo/{id}`   |
 
 | Delete a task  | ![DELETE](https://img.shields.io/badge/DELETE-red)| `/todo/{id}`   |
+
 
 
 ## How to run the app?
