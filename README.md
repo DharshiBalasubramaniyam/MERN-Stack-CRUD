@@ -1,5 +1,12 @@
 # CRUD in MERN stack
 
+<p>
+  <img alt="Static Badge" src="https://img.shields.io/badge/Node.js-darkgreen?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/React.js-blue?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/MongoDB-red?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Tailwind.css-purple?style=for-the-badge">
+</p>
+
 This is a simple todo web application to demonstrate CRUD operations in MERN stack.
 
 The full form of CRUD is Create, Read, Update, and Delete. These four basic operations can be performed on data in a database or any persistent storage system.
