@@ -2,7 +2,7 @@
 
 This is a simple todo web application to demonstrate CRUD operations in MERN stack.
 
-The full form of CRUD is Create, Read, Update, and Delete. These are the four basic operations that can be performed on data in a database or any persistent storage system.
+The full form of CRUD is Create, Read, Update, and Delete. These four basic operations can be performed on data in a database or any persistent storage system.
 
 
 - **Create**: This operation adds new data to the database. For example, adding a new record in a table.
@@ -33,52 +33,52 @@ These operations are fundamental to managing and manipulating data in a database
 
 2. Clone the Repository.
 
-```
-git clone repository-url
+```bash
+git clone https://github.com/<your_username>/MERN-Stack-CRUD.git
 ```
 
 3. Go to root of the project directory.
 
-```
-cd repository-directory
+```bash
+cd MERN-Stack-CRUD
 ```
 
 4. Navigate to server
 
-```
+```bash
 cd server/
 ```
 
 5. Install server dependencies
 
-```
+```bash
 npm install
 ```
 
 6. Run the server
 
-```
+```bash
 npm start
 ```
 
 7. Navigate to client
 
-```
-cd client/
+```bash
+cd ../client/
 ```
 
 8. Install client dependencies
 
-```
+```bash
 npm install
 ```
 
 9. Run the client
 
-```
+```bash
 npm run dev
 ```
 
 Check out the detailed implementation explanation [here](https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0).
 
-Find the demo [here](https://youtube.com/shorts/lVmchuyQdJg)
+Find the demo [here](https://youtube.com/shorts/lVmchuyQdJg).
