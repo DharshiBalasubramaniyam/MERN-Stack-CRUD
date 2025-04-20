@@ -79,5 +79,6 @@ npm install
 npm run dev
 ```
 
-Check out the detailed implementation explanation (here)[https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0].
-Find the demo (here)[https://youtube.com/shorts/lVmchuyQdJg]
+Check out the detailed implementation explanation [here](https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0).
+
+Find the demo [here](https://youtube.com/shorts/lVmchuyQdJg)
