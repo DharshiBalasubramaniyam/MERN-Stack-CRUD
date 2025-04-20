@@ -86,6 +86,10 @@ npm install
 npm run dev
 ```
 
+Now, visit [http://localhost:5173/](http://localhost:5173/) on browser.
+
+---
+
 Check out the detailed implementation explanation [here](https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0).
 
 Find the demo [here](https://youtube.com/shorts/lVmchuyQdJg).
