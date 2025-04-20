@@ -18,109 +18,66 @@ These operations are fundamental to managing and manipulating data in a database
 
 
 | Task | HTTP Method | Route Path |
-
 |----------|----------|----------|
-
 | Get all tasks  | ![GET](https://img.shields.io/badge/GET-blue)     | `/todo/all`   |
-
 | Get task by id | ![GET](https://img.shields.io/badge/GET-blue)     | `/todo/{id}`   |
-
 | Create a task  | ![POST](https://img.shields.io/badge/POST-green)  | `/todo/new`   |
-
 | Edit a task    | ![PUT](https://img.shields.io/badge/PUT-yellow)   | `/todo/{id}`   |
-
 | Delete a task  | ![DELETE](https://img.shields.io/badge/DELETE-red)| `/todo/{id}`   |
 
 
 
 ## How to run the app?
 
-
-
 1. Fork the repository.
-
-
 
 2. Clone the Repository.
 
-
-
 ```
-
 git clone repository-url
-
 ```
-
-
 
 3. Go to root of the project directory.
 
-
-
 ```
-
 cd repository-directory
-
 ```
-
-
 
 4. Navigate to server
 
 ```
-
 cd server/
-
 ```
-
-
 
 5. Install server dependencies
 
 ```
-
 npm install
-
 ```
-
-
 
 6. Run the server
 
 ```
-
 npm start
-
 ```
-
-
 
 7. Navigate to client
 
 ```
-
 cd client/
-
 ```
-
-
 
 8. Install client dependencies
 
 ```
-
 npm install
-
 ```
-
-
 
 9. Run the client
 
 ```
-
 npm run dev
-
 ```
 
-Check out the detailed explanation of the implementation (here)[https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0].
+Check out the detailed implementation explanation (here)[https://medium.com/@dharshib.8/getting-started-with-the-mern-stack-6b79d12626f0].
+Find the demo (here)[https://youtube.com/shorts/lVmchuyQdJg]
