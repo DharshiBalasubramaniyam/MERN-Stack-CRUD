@@ -1,22 +1,27 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { categories } from "./Categories";
 import ToDoContext from "../contexts/ToDoContext";
+import { useDispatch, useSelector } from "react-redux";
+import ToDoService from "../services/ToDoService";
+import { setToDo } from "../redux/features/todo";
 
-function ToDoForm({onCancel}) {
+function ToDoForm({ onCancel }) {
 
-    const { toDo, addToDo, editToDo, setToDo } = useContext(ToDoContext)
+    const { todo } = useSelector(state => state.todo)
+    const { addToDo, editToDo } = ToDoService()
+    const dispatch = useDispatch();
     const [toDoData, setToDoData] = useState({ task: "", category: categories[0].name, datetime: (new Date()).toISOString().slice(0, 16) });
     const taskInput = useRef()
 
     useEffect(() => {
-        console.log(toDo)
-        if (toDo) {
+        console.log(todo)
+        if (todo) {
             setToDoData(prev => {
-                return { ...prev, task: toDo.task, category: toDo.category, datetime: toDo.datetime.split("Z")[0] };
+                return { ...prev, task: todo.task, category: todo.category, datetime: todo.datetime.split("Z")[0].toLocaleString() };
             });
             taskInput.current.focus()
         }
-    }, [toDo])
+    }, [todo])
 
     const clearForm = () => {
         setToDoData(prev => {
@@ -41,13 +46,13 @@ function ToDoForm({onCancel}) {
 
     const onEdit = (e) => {
         e.preventDefault()
-        editToDo(toDo._id, toDoData.task, toDoData.category, toDo.isCompleted, toDoData.datetime)
+        editToDo(todo._id, toDoData.task, toDoData.category, todo.isCompleted, toDoData.datetime)
         clearForm()
     }
 
     const onCancelClick = (e) => {
         e.preventDefault()
-        setToDo(null)
+        dispatch(setToDo(null))
         clearForm()
         onCancel()
     }
@@ -62,7 +67,7 @@ function ToDoForm({onCancel}) {
                 className="p-3 bg-blue-400 flex-col flex gap-4 w-full max-w-96"
                 onSubmit={handleSubmit}
             >
-                <h1 className="text-lg font-bold">{toDo ? "Edit" : "New"} TODO</h1>
+                <h1 className="text-lg font-bold">{todo ? "Edit" : "New"} TODO</h1>
                 <select
                     className="p-3 border-2 border-blue-900 text-blue-950 focus:ring-2 focus:ring-blue-500 outline-none rounded-l"
                     name="category"
@@ -101,40 +106,39 @@ function ToDoForm({onCancel}) {
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                 />
                 {
-                    toDo &&
-                    <div className="flex gap-2 justify-end">
-                        <button
-                            className="bg-gray-500 px-6 py-3 hover:bg-gray-600 text-white focus:ring-2 focus:ring-gray-300"
-                            onClick={onCancelClick}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            className="bg-blue-900 px-6 py-3 hover:bg-blue-950 text-white focus:ring-2 focus:ring-blue-500 rounded-r"
-                            onClick={onEdit}
-                        >
-                            Update
-                        </button>
-                    </div>
-                }
-                {
-                    !toDo && (
-                        <div className="flex gap-2 justify-end">
-                            <button
-                                className="bg-gray-500 px-6 py-3 hover:bg-gray-600 text-white focus:ring-2 focus:ring-gray-300 rounded-sm"
-                                onClick={onCancelClick}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="bg-blue-900 px-6 py-3 hover:bg-blue-950 text-white focus:ring-2 focus:ring-blue-500 rounded-sm"
-                                onClick={onAdd}
-                            >
-                                Add
-                            </button>
-                            
-                        </div>
-                    )
+                    todo ?
+                        (
+                            <div className="flex gap-2 justify-end">
+                                <button
+                                    className="bg-gray-500 px-6 py-3 hover:bg-gray-600 text-white focus:ring-2 focus:ring-gray-300"
+                                    onClick={onCancelClick}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="bg-blue-900 px-6 py-3 hover:bg-blue-950 text-white focus:ring-2 focus:ring-blue-500 rounded-r"
+                                    onClick={onEdit}
+                                >
+                                    Update
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex gap-2 justify-end">
+                                <button
+                                    className="bg-gray-500 px-6 py-3 hover:bg-gray-600 text-white focus:ring-2 focus:ring-gray-300 rounded-sm"
+                                    onClick={onCancelClick}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="bg-blue-900 px-6 py-3 hover:bg-blue-950 text-white focus:ring-2 focus:ring-blue-500 rounded-sm"
+                                    onClick={onAdd}
+                                >
+                                    Add
+                                </button>
+
+                            </div>
+                        )
                 }
             </form>
         </main>

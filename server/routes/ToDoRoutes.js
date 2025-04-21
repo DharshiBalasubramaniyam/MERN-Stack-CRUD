@@ -6,6 +6,7 @@ const { authenticate } = require("../middlewares/Authentication")
 toDoRouter.post("/new", authenticate, toDoController.createToDo)
 toDoRouter.get("/all", authenticate, toDoController.getAllToDo)
 toDoRouter.get("/:id", authenticate, toDoController.getToDoById)
+toDoRouter.get("/summary", authenticate, toDoController.getToDoSummary)
 toDoRouter.put("/:id", authenticate, toDoController.editToDo)
 toDoRouter.delete("/:id", authenticate, toDoController.deleteToDo)
 
