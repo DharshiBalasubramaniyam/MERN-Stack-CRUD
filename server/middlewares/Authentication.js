@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 dotenv.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
-export const authenticate = (req, res, next) => {
+exports.authenticate = (req, res, next) => {
    const authHeader = req.headers['authorization'];
    const token = authHeader?.split(' ')[1];
    if (!token) {

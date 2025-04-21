@@ -1,14 +1,12 @@
 const express = require("express");
 const toDoRouter = express.Router();
 const toDoController = require("../controllers/ToDoController");
-const { validateToDoRequest } = require("../middlewares/RequestValidator");
+const { authenticate } = require("../middlewares/Authentication")
 
-const createValidationMiddleware = (type) => (req, res, next) => validateToDoRequest(type, req, res, next);
-
-toDoRouter.post("/new", createValidationMiddleware("create"), toDoController.createToDo)
-toDoRouter.get("/all", toDoController.getAllToDo)
-toDoRouter.get("/:id", toDoController.getToDoById)
-toDoRouter.put("/:id", createValidationMiddleware("edit"), toDoController.editToDo)
-toDoRouter.delete("/:id", toDoController.deleteToDo)
+toDoRouter.post("/new", authenticate, toDoController.createToDo)
+toDoRouter.get("/all", authenticate, toDoController.getAllToDo)
+toDoRouter.get("/:id", authenticate, toDoController.getToDoById)
+toDoRouter.put("/:id", authenticate, toDoController.editToDo)
+toDoRouter.delete("/:id", authenticate, toDoController.deleteToDo)
 
 module.exports = toDoRouter;

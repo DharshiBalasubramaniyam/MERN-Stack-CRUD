@@ -4,14 +4,14 @@ import Input from "../components/Input";
 import toast from 'react-hot-toast';
 import LoadingButton from "../components/LoadingButton";
 import { useGoogleLogin } from '@react-oauth/google';
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import { AuthService } from "../services/AuthService";
 import { Link, useNavigate } from "react-router-dom";
+
 function Login() {
    const [inputs, setInputs] = useState({ email: "", password: "" });
    const [loggingIn, setLoggingIn] = useState(false)
-   const { login } = AuthService()
-   const navigate = useNavigate()
+   const { login, loginWithGoogle } = AuthService()
 
    const onInputChange = (e) => {
       const { name, value } = e.target;
@@ -35,7 +35,7 @@ function Login() {
    const onGoogleLogin = useGoogleLogin({
       onSuccess: async (tokenResponse) => {
          console.log(tokenResponse);
-         navigate("/register/phone", { state: { token: tokenResponse.access_token } })
+         await loginWithGoogle({ token: tokenResponse.access_token })
       },
       onError: () => toast.error("Login failed!")
    });

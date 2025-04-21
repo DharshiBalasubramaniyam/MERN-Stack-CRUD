@@ -8,7 +8,7 @@ function Header() {
     const {logOut} = AuthService();
 
     return (
-        <div className="flex justify-between items-center w-full px-8 py-4 bg-blue-900 z-10">
+        <div className="flex justify-between items-center w-full px-3 md:px-8 py-4 bg-blue-900 z-10">
             <h1 className="text-white text-2xl text-center font-bold">MyToDo</h1>
             <div className="flex items-center relative">
                 <div className="flex items-center ms-3">
@@ -32,9 +32,9 @@ function Header() {
 
 
                                 </div>
-                                <ul class="py-1" role="none">
+                                <ul className="py-1" role="none">
                                     <li onClick={logOut}>
-                                        <span class="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Sign out</span>
+                                        <span className="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Sign out</span>
                                     </li>
                                 </ul>
                             </div>

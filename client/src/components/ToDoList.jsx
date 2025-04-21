@@ -55,7 +55,7 @@ function ToDoList() {
     }, [allTodos, filterOption])
 
     return (
-        <section className="my-4 mx-8">
+        <section className="my-4 px-3 md:px-8">
             <Filter 
                 filterOption={filterOption} 
                 setFilterOption={setFilterOption} 
