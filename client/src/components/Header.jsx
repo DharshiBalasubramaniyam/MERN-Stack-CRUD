@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { AuthService } from "../services/AuthService";
 
 function Header() {
     const { username, email } = useSelector((state) => state.auth)
     const [isUserMenuOpen, setUserMenuOpen] = useState(false)
+    const profileRef = useRef();
     const {logOut} = AuthService();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (profileRef.current && !profileRef.current.contains(event.target)) {
+            setUserMenuOpen(false);
+          }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+      }, []);
+    
 
     return (
         <div className="flex justify-between items-center w-full px-3 md:px-8 py-4 bg-blue-900 z-10">
             <h1 className="text-white text-2xl text-center font-bold">MyToDo</h1>
             <div className="flex items-center relative">
                 <div className="flex items-center ms-3">
-                    <div onClick={() => { setUserMenuOpen(!isUserMenuOpen) }}>
+                    <div onClick={() => { setUserMenuOpen(!isUserMenuOpen) }} ref={profileRef}>
                         <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                             <span className="sr-only">Open user menu</span>
                             <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
