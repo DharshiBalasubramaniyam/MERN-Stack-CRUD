@@ -4,7 +4,7 @@ exports.createToDo = async (req, res, next) => {
     try {
         const { task, category, datetime } = req.body;
 
-        const existingToDo = await ToDo.findOne({ task });
+        const existingToDo = await ToDo.findOne({ task, datetime, category });
 
         if (existingToDo) {
             return res.status(400).json({ success: false, message: "Task already exists!" });

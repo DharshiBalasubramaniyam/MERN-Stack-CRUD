@@ -1,7 +1,47 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { AuthService } from "../services/AuthService";
+
 function Header() {
+    const { username, email } = useSelector((state) => state.auth)
+    const [isUserMenuOpen, setUserMenuOpen] = useState(false)
+    const {logOut} = AuthService();
+
     return (
-        <div className="w-full px-8 py-4 bg-blue-900 z-10">
+        <div className="flex justify-between items-center w-full px-8 py-4 bg-blue-900 z-10">
             <h1 className="text-white text-2xl text-center font-bold">MyToDo</h1>
+            <div className="flex items-center relative">
+                <div className="flex items-center ms-3">
+                    <div onClick={() => { setUserMenuOpen(!isUserMenuOpen) }}>
+                        <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                            <span className="sr-only">Open user menu</span>
+                            <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
+                        </button>
+                    </div>
+                    {
+                        isUserMenuOpen && (
+                            <div className="absolute top-2/3 right-2 z-50 my-4 text-base list-none bg-bg-light-primary divide-y divide-blue-200 rounded-sm bg-white border shadow-md" id="dropdown-user">
+                                <div className="px-4 py-3" role="none">
+                                    <p className="text-xl text-text-light-primary dark:text-text-dark-primary capitalize" role="none">
+                                        {username}
+                                    </p>
+
+                                    <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary truncate" role="none">
+                                        {email}
+                                    </p>
+
+
+                                </div>
+                                <ul class="py-1" role="none">
+                                    <li onClick={logOut}>
+                                        <span class="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Sign out</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
         </div>
     )
 }

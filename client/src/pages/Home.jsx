@@ -9,17 +9,17 @@ import AddButton from "../components/AddButton";
 function Home() {
 
     const { allTodos, toDo, loading, error, getAllToDo, getToDoById, addToDo, editToDo, deleteToDo, setToDo } = ToDoService();
-    const [isAdd, setIsAdd] = useState(false)
+    const [isAdd, setIsAdd] = useState(false);
 
     return (
-        <>
+        <main className="font-AfacadFlux">
             <Header />
             <AddButton onAddClick={() => setIsAdd(!isAdd)} />
             <ToDoContext.Provider value={{ allTodos, toDo, loading, error, getAllToDo, getToDoById, addToDo, editToDo, deleteToDo, setToDo }}>
                 {(isAdd || toDo) && <ToDoForm onCancel={() => setIsAdd(false)} />}
                 <ToDoList />
             </ToDoContext.Provider>
-        </>
+        </main>
     )
 
 }
