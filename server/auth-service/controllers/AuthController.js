@@ -136,6 +136,7 @@ exports.ContinueWithGoogle = async (req, res, next) => {
 
 exports.Login = async (req, res, next) => {
    try {
+      console.log("Mongoose readyState:", require('mongoose').connection.readyState); // this is logging nothing
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {

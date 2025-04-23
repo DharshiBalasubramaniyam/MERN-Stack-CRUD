@@ -1,16 +1,9 @@
 const ToDo = require("../models/ToDo");
 const moment = require('moment');
 
-// Protected Route Test
-// authRouter.get('/protected', authenticate, (req: Request, res: Response) => {
-//     console.log("protected route. user: ", (req as any).user)
-//     res.json({ message: 'This is protected data' });
-// });
-
 exports.createToDo = async (req, res, next) => {
     try {
-        const user = req.user
-
+        const user = { id: req.headers['x-user-id'] };
         const { task, category, datetime } = req.body;
 
         const existingToDo = await ToDo.findOne({ task, datetime, category, user: user.id });
@@ -36,7 +29,7 @@ exports.createToDo = async (req, res, next) => {
 
 exports.getToDoById = async (req, res, next) => {
     try {
-        const user = req.user
+        const user = { id: req.headers['x-user-id'] };
         const { id } = req.params;
         const toDo = await ToDo.findOne({ _id: id, user: user.id });
         if (!toDo) {
@@ -50,7 +43,7 @@ exports.getToDoById = async (req, res, next) => {
 
 exports.editToDo = async (req, res, next) => {
     try {
-        const user = req.user
+        const user = { id: req.headers['x-user-id'] };
         const { task, category, isCompleted, datetime } = req.body;
         const { id } = req.params;
 
@@ -71,7 +64,7 @@ exports.editToDo = async (req, res, next) => {
 
 exports.deleteToDo = async (req, res, next) => {
     try {
-        const user = req.user
+        const user = { id: req.headers['x-user-id'] };
         const { id } = req.params;
         const existingToDo = await ToDo.findOne({ _id: id, user: user.id });
 
@@ -88,7 +81,8 @@ exports.deleteToDo = async (req, res, next) => {
 };
 
 exports.getToDoSummary = async (req, res) => {
-    const user = req.user
+    const user = { id: req.headers['x-user-id'] };
+    console.log("user in todo service: ", user)
     const { type, category, pageno, pagesize } = req.query;
 
 
@@ -100,8 +94,8 @@ exports.getToDoSummary = async (req, res) => {
 
     // const page = parseInt(pageno);
     // const size = parseInt(pagesize);
-    const todayStart = moment().startOf('day').toDate(); 
-    const todayEnd = moment().endOf('day').toDate(); 
+    const todayStart = moment().startOf('day').toDate();
+    const todayEnd = moment().endOf('day').toDate();
 
     const categoryFilter = category?.trim() ? { category } : {};
 
@@ -134,7 +128,7 @@ exports.getToDoSummary = async (req, res) => {
 
     try {
         console.log("category is there")
-            tasks = await ToDo.find({ ...typeFilter, ...categoryFilter, user: user.id})
+        tasks = await ToDo.find({ ...typeFilter, ...categoryFilter, user: user.id })
             // .skip((page - 1) * size)
             // .limit(size)
             .sort({ datetime: 1 });

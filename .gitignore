@@ -114,5 +114,4 @@ server/node_modules/
 server/.env
 
 # Ignore .env files in both client and server directories
-client/.env
-server/.env
+**/.env
