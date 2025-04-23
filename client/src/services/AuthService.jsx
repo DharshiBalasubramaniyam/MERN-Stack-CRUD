@@ -23,7 +23,7 @@ export function AuthService() {
                 }
                 dispatch(loginSuccess(userData))
                 toast.success("Login successful!");
-                navigate(`/`);
+                navigate(`/?type=today&category=`);
             }
         } catch (error) {
             processError(error);
@@ -44,7 +44,7 @@ export function AuthService() {
                 }
                 dispatch(loginSuccess(userData))
                 toast.success("Login successful!");
-                navigate(`/`);
+                navigate(`/?type=today&category=`);
             }
         } catch (error) {
             processError(error)
@@ -66,7 +66,7 @@ export function AuthService() {
                 }
                 dispatch(loginSuccess(userData))
                 toast.success("Login successful!");
-                navigate(`/`);
+                navigate(`/?type=today&category=`);
             }
         } catch (error) {
             processError(error)
