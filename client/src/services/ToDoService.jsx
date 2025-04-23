@@ -1,22 +1,26 @@
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, setToDos, setError, setToDo } from "../redux/features/todo";
+import { setLoading, setToDos, setError, setToDo, setCounts } from "../redux/features/todo";
 import { api } from "../config/api.config";
+import { useSearchParams } from 'react-router-dom'
 
 function ToDoService() {
     const { token } = useSelector((state) => state.auth)
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
+    const type1 = searchParams.get('type');
+    const category1 = searchParams.get('category');
 
     const getAllToDo = async () => {
         dispatch(setLoading(true))
-        await api.get(`todo/all`, { headers: { "authorization": `bearer ${token}` } })
+        await api.get(`todo/summary`, { headers: { "authorization": `bearer ${token}` }, params: { type: type1, category: category1 } })
             .then((response) => {
                 dispatch(setError(false))
-                console.log(response.data.message) // i got the result here 
-                dispatch(setToDos(response.data.message))
+                dispatch(setToDos(response.data.tasks))
+                dispatch(setCounts(response.data.counts))
             })
             .catch((error) => {
-                dispatch(setError(true)); 
+                dispatch(setError(true));
                 dispatch(setToDos(null))
                 toast.error((error.response && error.response.data.message) || error.message)
             })
@@ -25,11 +29,9 @@ function ToDoService() {
 
     const getToDoById = async (id) => {
         dispatch(setLoading(true))
-        console.log("getting todo")
         await api.get(`todo/${id}`, { headers: { "authorization": `bearer ${token}` } })
             .then((response) => {
                 dispatch(setError(false))
-                console.log(response.data.message)
                 dispatch(setToDo(response.data.message))
             })
             .catch((error) => {
@@ -51,7 +53,7 @@ function ToDoService() {
                 toast.error((error.response && error.response.data.message) || error.message)
             })
         dispatch(setLoading(false))
-        getAllToDo()
+        getAllToDo(type1, category1)
     }
 
     const editToDo = async (id, task, category, isCompleted, datetime) => {

@@ -1,4 +1,5 @@
 const ToDo = require("../models/ToDo");
+const moment = require('moment');
 
 // Protected Route Test
 // authRouter.get('/protected', authenticate, (req: Request, res: Response) => {
@@ -9,7 +10,6 @@ const ToDo = require("../models/ToDo");
 exports.createToDo = async (req, res, next) => {
     try {
         const user = req.user
-        console.log(user)
 
         const { task, category, datetime } = req.body;
 
@@ -34,21 +34,9 @@ exports.createToDo = async (req, res, next) => {
     }
 };
 
-exports.getAllToDo = async (req, res, next) => {
-    try {
-        const user = req.user
-        console.log(user)
-        const allToDo = await ToDo.find({ user: user.id }).sort({ datetime: 1 });
-        res.status(200).json({ success: true, message: allToDo });
-    } catch (error) {
-        next(error);
-    }
-};
-
 exports.getToDoById = async (req, res, next) => {
     try {
         const user = req.user
-        console.log(user)
         const { id } = req.params;
         const toDo = await ToDo.findOne({ _id: id, user: user.id });
         if (!toDo) {
@@ -63,7 +51,6 @@ exports.getToDoById = async (req, res, next) => {
 exports.editToDo = async (req, res, next) => {
     try {
         const user = req.user
-        console.log(user)
         const { task, category, isCompleted, datetime } = req.body;
         const { id } = req.params;
 
@@ -85,7 +72,6 @@ exports.editToDo = async (req, res, next) => {
 exports.deleteToDo = async (req, res, next) => {
     try {
         const user = req.user
-        console.log(user)
         const { id } = req.params;
         const existingToDo = await ToDo.findOne({ _id: id, user: user.id });
 
@@ -101,132 +87,96 @@ exports.deleteToDo = async (req, res, next) => {
     }
 };
 
-exports.getToDoSummary = async (req, res, next) => {
-    try {
-        const user = req.user
-        console.log(user)
+exports.getToDoSummary = async (req, res) => {
+    const user = req.user
+    const { type, category, pageno, pagesize } = req.query;
 
-        const todayStart = moment().startOf('day').toDate();
-        const todayEnd = moment().endOf('day').toDate();
+
+    const validTypes = ['today', 'overdue', 'upcoming', 'completed'];
+    // if (!type || !validTypes.includes(type) || !pageno || !pagesize) {
+    if (!type || !validTypes.includes(type)) {
+        return res.status(400).json({ error: 'Invalid or missing query parameters.' });
+    }
+
+    // const page = parseInt(pageno);
+    // const size = parseInt(pagesize);
+    const todayStart = moment().startOf('day').toDate(); 
+    const todayEnd = moment().endOf('day').toDate(); 
+
+    const categoryFilter = category?.trim() ? { category } : {};
+
+    let typeFilter = {};
+    switch (type) {
+        case 'today':
+            typeFilter = {
+                datetime: { $gte: todayStart, $lte: todayEnd },
+                isCompleted: false
+            };
+            break;
+        case 'overdue':
+            typeFilter = {
+                datetime: { $lt: todayStart },
+                isCompleted: false
+            };
+            break;
+        case 'upcoming':
+            typeFilter = {
+                datetime: { $gt: todayEnd },
+                isCompleted: false
+            };
+            break;
+        case 'completed':
+            typeFilter = { isCompleted: true };
+            break;
+    }
+
+    console.log({ ...typeFilter, ...categoryFilter })
+
+    try {
+        console.log("category is there")
+            tasks = await ToDo.find({ ...typeFilter, ...categoryFilter, user: user.id})
+            // .skip((page - 1) * size)
+            // .limit(size)
+            .sort({ datetime: 1 });
 
         const [todayCount, overdueCount, upcomingCount, completedCount] = await Promise.all([
             ToDo.countDocuments({
-                date: { $gte: todayStart, $lte: todayEnd },
+                datetime: { $gte: todayStart, $lte: todayEnd },
                 isCompleted: false,
+                user: user.id,
                 ...categoryFilter
             }),
             ToDo.countDocuments({
-                date: { $lt: todayStart },
+                datetime: { $lt: todayStart },
                 isCompleted: false,
-                ...categoryFilter
+                user: user.id,
+                ...categoryFilter,
             }),
             ToDo.countDocuments({
-                date: { $gt: todayEnd },
+                datetime: { $gt: todayEnd },
                 isCompleted: false,
+                user: user.id,
                 ...categoryFilter
             }),
             ToDo.countDocuments({
                 isCompleted: true,
+                user: user.id,
                 ...categoryFilter
             }),
         ]);
 
-        res.status(200).json({ success: true, message: { todayCount, overdueCount, upcomingCount, completedCount } });
-    } catch (error) {
-        next()
+        res.json({
+            tasks,
+            counts: {
+                today: todayCount,
+                overdue: overdueCount,
+                upcoming: upcomingCount,
+                completed: completedCount
+            }
+        });
+    } catch (err) {
+        console.error('Error fetching todos:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-}
-
-// const express = require('express');
-// const router = express.Router();
-// const Task = require('../models/Task'); // your mongoose model
-// const moment = require('moment');
-
-// router.get('/todo', async (req, res) => {
-//     const { type, category, pageno, pagesize } = req.query;
-
-//     // Validate required fields
-//     const validTypes = ['today', 'overdue', 'upcoming', 'completed'];
-//     if (!type || !validTypes.includes(type) || !pageno || !pagesize) {
-//         return res.status(400).json({ error: 'Invalid or missing query parameters.' });
-//     }
-
-//     const page = parseInt(pageno);
-//     const size = parseInt(pagesize);
-//     const todayStart = moment().startOf('day').toDate();
-//     const todayEnd = moment().endOf('day').toDate();
-
-//     // Base filter for category if given
-//     const categoryFilter = category ? { category } : {};
-
-//     // Type filter logic
-//     let typeFilter = {};
-//     switch (type) {
-//         case 'today':
-//             typeFilter = {
-//                 date: { $gte: todayStart, $lte: todayEnd },
-//                 isCompleted: false
-//             };
-//             break;
-//         case 'overdue':
-//             typeFilter = {
-//                 date: { $lt: todayStart },
-//                 isCompleted: false
-//             };
-//             break;
-//         case 'upcoming':
-//             typeFilter = {
-//                 date: { $gt: todayEnd },
-//                 isCompleted: false
-//             };
-//             break;
-//         case 'completed':
-//             typeFilter = { isCompleted: true };
-//             break;
-//     }
-
-//     try {
-//         // Paginated task list
-//         const tasks = await Task.find({ ...typeFilter, ...categoryFilter })
-//             .skip((page - 1) * size)
-//             .limit(size)
-//             .sort({ date: 1 });
-
-//         // Counts
-//         const [todayCount, overdueCount, upcomingCount, completedCount] = await Promise.all([
-//             Task.countDocuments({
-//                 date: { $gte: todayStart, $lte: todayEnd },
-//                 isCompleted: false,
-//                 ...categoryFilter
-//             }),
-//             Task.countDocuments({
-//                 date: { $lt: todayStart },
-//                 isCompleted: false,
-//                 ...categoryFilter
-//             }),
-//             Task.countDocuments({
-//                 date: { $gt: todayEnd },
-//                 isCompleted: false,
-//                 ...categoryFilter
-//             }),
-//             Task.countDocuments({
-//                 isCompleted: true,
-//                 ...categoryFilter
-//             }),
-//         ]);
-
-//         res.json({
-//             tasks,
-//             counts: {
-//                 today: todayCount,
-//                 overdue: overdueCount,
-//                 upcoming: upcomingCount,
-//                 completed: completedCount
-//             }
-//         });
-//     } catch (err) {
-//         console.error('Error fetching todos:', err);
-//         res.status(500).json({ error: 'Server error' });
-//     }
-// });
+};
 

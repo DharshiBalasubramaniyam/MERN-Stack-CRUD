@@ -6,18 +6,18 @@ function Header() {
     const { username, email } = useSelector((state) => state.auth)
     const [isUserMenuOpen, setUserMenuOpen] = useState(false)
     const profileRef = useRef();
-    const {logOut} = AuthService();
+    const { logOut } = AuthService();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-          if (profileRef.current && !profileRef.current.contains(event.target)) {
-            setUserMenuOpen(false);
-          }
+            if (profileRef.current && !profileRef.current.contains(event.target)) {
+                setUserMenuOpen(false);
+            }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-      }, []);
-    
+    }, []);
+
 
     return (
         <div className="flex justify-between items-center w-full px-3 md:px-8 py-4 bg-blue-900 z-10">

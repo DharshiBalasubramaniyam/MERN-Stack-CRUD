@@ -19,46 +19,48 @@ function ToDoList() {
     const [completedCount, setCompletedCount] = useState(0);
     const [filterOption, setFilterOption] = useState("today");
 
-    useEffect(() => {
-        getAllToDo()
-    }, [])
+    // useEffect(() => {
+    //     getAllToDo()
+    // }, [])
 
-    useEffect(() => {
-        let today = 0;
-        let upcoming = 0;
-        let overdue = 0;
-        let completed = 0;
-        const now = new Date();
-        console.log("todos updated: ", todos)
-        const filter = todos?.filter(task => {
-            const due = new Date(task.datetime); 
+    // useEffect(() => {
+    //     let today = 0;
+    //     let upcoming = 0;
+    //     let overdue = 0;
+    //     let completed = 0;
+    //     const now = new Date();
+    //     console.log("todos updated: ", todos)
+    //     const filter = todos?.filter(task => {
+    //         const due = new Date(task.datetime); 
 
-            if (task.isCompleted) completed++;
+    //         if (task.isCompleted) completed++;
 
-            if (isToday(due) && !task.isCompleted) today++;
-            else if (isAfter(due, now) && !isToday(due) && !task.isCompleted) upcoming++;
-            else if (isBefore(due, now) && !isToday(due) && !task.isCompleted) overdue++;
+    //         if (isToday(due) && !task.isCompleted) today++;
+    //         else if (isAfter(due, now) && !isToday(due) && !task.isCompleted) upcoming++;
+    //         else if (isBefore(due, now) && !isToday(due) && !task.isCompleted) overdue++;
 
-            switch (filterOption) {
-                case "today":
-                    return isToday(due) && !task.isCompleted;
-                case "upcoming":
-                    return isAfter(due, now) && !isToday(due) && !task.isCompleted;
-                case "overdue":
-                    return isBefore(due, now) && !isToday(due) && !task.isCompleted;
-                case "completed":
-                    return task.isCompleted;
-                default:
-                    return true;
-            }
-        });
-        console.log(filter)
-        setFilteredTodos(filter)
-        setTodayCount(today);
-        setUpcomingCount(upcoming);
-        setOverdueCount(overdue);
-        setCompletedCount(completed);
-    }, [todos, filterOption])
+    //         switch (filterOption) {
+    //             case "today":
+    //                 return isToday(due) && !task.isCompleted;
+    //             case "upcoming":
+    //                 return isAfter(due, now) && !isToday(due) && !task.isCompleted;
+    //             case "overdue":
+    //                 return isBefore(due, now) && !isToday(due) && !task.isCompleted;
+    //             case "completed":
+    //                 return task.isCompleted;
+    //             default:
+    //                 return true;
+    //         }
+    //     });
+    //     console.log(filter)
+    //     setFilteredTodos(filter)
+    //     setTodayCount(today);
+    //     setUpcomingCount(upcoming);
+    //     setOverdueCount(overdue);
+    //     setCompletedCount(completed);
+    // }, [todos, filterOption])
+
+    console.log(todos)
 
     return (
         <section className="my-4 px-3 md:px-8">
@@ -75,13 +77,13 @@ function ToDoList() {
                 loading ? (
                     <Info message="Loading..." />
                 ) : (
-                    filteredTodos && filteredTodos.map((todo) => {
+                    todos && todos.map((todo) => {
                         return <ToDoItem todo={todo} key={todo._id} deleteToDo={deleteToDo} editToDo={editToDo} getToDoById={getToDoById} />
                     })
                 )
             }
             {
-                filteredTodos && filteredTodos.length === 0 && <Info message="No tasks to found!" />
+                todos && todos.length === 0 && <Info message="No tasks to found!" />
             }
             {
                 !loading && error && <Info message="Unable to process your request now. Please try again later!" />

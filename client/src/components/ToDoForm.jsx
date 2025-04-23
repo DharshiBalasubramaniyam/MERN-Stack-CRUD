@@ -10,14 +10,13 @@ function ToDoForm({ onCancel }) {
     const { todo } = useSelector(state => state.todo)
     const { addToDo, editToDo } = ToDoService()
     const dispatch = useDispatch();
-    const [toDoData, setToDoData] = useState({ task: "", category: categories[0].name, datetime: (new Date()).toISOString().slice(0, 16) });
+    const [toDoData, setToDoData] = useState({ task: "", category: categories[0].name, datetime: getCurrentDateTime(new Date()) });
     const taskInput = useRef()
 
     useEffect(() => {
-        console.log(todo)
         if (todo) {
             setToDoData(prev => {
-                return { ...prev, task: todo.task, category: todo.category, datetime: todo.datetime.split("Z")[0].toLocaleString() };
+                return { ...prev, task: todo.task, category: todo.category, datetime: getCurrentDateTime(todo.datetime) };
             });
             taskInput.current.focus()
         }
@@ -143,6 +142,19 @@ function ToDoForm({ onCancel }) {
             </form>
         </main>
     )
+}
+
+function getCurrentDateTime(date) {
+    const input = new Date(date);
+
+    const year = input.getFullYear();
+    const month = String(input.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const day = String(input.getDate()).padStart(2, '0');
+    const hours = String(input.getHours()).padStart(2, '0');
+    const minutes = String(input.getMinutes()).padStart(2, '0');
+
+    const localDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    return localDatetime;
 }
 
 export default ToDoForm;
