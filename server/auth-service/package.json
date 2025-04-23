@@ -1,4 +1,14 @@
 {
+  "name": "auth-service",
+  "version": "1.0.0",
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -10,15 +20,5 @@
     "moment": "^2.30.1",
     "mongoose": "^8.4.0",
     "nodemon": "^3.1.1"
-  },
-  "scripts": {
-    "start": "nodemon app.js"
-  },
-  "name": "server",
-  "version": "1.0.0",
-  "main": "app.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

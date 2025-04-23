@@ -23,8 +23,8 @@ function Header() {
         <div className="flex justify-between items-center w-full px-3 md:px-8 py-4 bg-blue-900 z-10">
             <h1 className="text-white text-2xl text-center font-bold">MyToDo</h1>
             <div className="flex items-center relative">
-                <div className="flex items-center ms-3">
-                    <div onClick={() => { setUserMenuOpen(!isUserMenuOpen) }} ref={profileRef}>
+                <div className="flex items-center ms-3" ref={profileRef}>
+                    <div onClick={() => { setUserMenuOpen(!isUserMenuOpen) }}>
                         <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                             <span className="sr-only">Open user menu</span>
                             <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />

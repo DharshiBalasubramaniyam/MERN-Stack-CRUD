@@ -19,6 +19,8 @@ exports.authenticate = (req, res, next) => {
          res.sendStatus(403);
          return;
       }
+      console.log("in api gateway user verified: ", user)
+      req.headers['x-user-id'] = user.id;
       req.user = user;
       next();
    });
