@@ -6,7 +6,7 @@ const { handleErrors } = require('./middlewares/ErrorHandler');
 const authRoutes = require("./routes/AuthRoutes")
 const connectDB = require("./config/db");
 
-const port = process.env.PORT || 9002
+const port = process.env.AUTH_SERVICE_PORT || 9002
 const app = express();
 
 app.use(express.json())

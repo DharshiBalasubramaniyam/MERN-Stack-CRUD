@@ -5,7 +5,7 @@ const { handleErrors } = require('./middlewares/ErrorHandler');
 const toDoRoutes = require("./routes/ToDoRoutes")
 const connectDB = require("./config/db");
 
-const port = process.env.PORT || 9001
+const port = process.env.TODO_SERVICE_PORT || 9001
 const app = express();
 
 app.use(cors());

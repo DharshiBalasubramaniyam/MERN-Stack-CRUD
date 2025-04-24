@@ -4,7 +4,7 @@ const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware')
 const {authenticate} = require("./middlewares/authentication")
 
-const port = process.env.PORT || 9000
+const port = process.env.API_GATEWAY_PORT || 9000
 
 const app = express();
 
@@ -16,13 +16,13 @@ app.use(
 );
 
 app.use('/auth', createProxyMiddleware({
-   target: "http://localhost:9002",
+   target: process.env.AUTH_SERVICE_URL || "http://localhost:9002",
    changeOrigin: true,
    pathRewrite: {'^/auth': ''}
 }))
 
 app.use('/todo', authenticate, createProxyMiddleware({
-   target: "http://localhost:9001",
+   target: process.env.TODO_SERVICE_URL || "http://localhost:9001",
    changeOrigin: true,
    pathRewrite: {'^/todo': ''}
 }))
