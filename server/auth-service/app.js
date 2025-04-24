@@ -20,6 +20,10 @@ app.use(
 app.use(handleErrors)
 app.use("/", authRoutes);
 
+app.use("/test", (req, res) => {
+   return "Auth service running successfully..."
+})
+
 connectDB()
    .then(() => {
       app.listen(port, () => {
