@@ -1,0 +1,69 @@
+version: '3.8'
+
+networks:
+  default:
+    name: mytodo-network
+    driver: bridge
+
+services:
+  api-gateway:
+    build:
+      context: ./server/api-gateway
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    depends_on:
+      - auth-service
+      - todo-service
+
+  auth-service:
+    build:
+      context: ./server/auth-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9002:9002"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  todo-service:
+    build:
+      context: ./server/todo-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9001:9001"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "5173:80"
+    
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    networks:
+      - default
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
