@@ -1,4 +1,10 @@
-FROM node:20
+FROM node:20 AS builder
+
+# Install tzdata for time zone configuration
+RUN apt-get update && apt-get install -y tzdata
+
+# Set the time zone to Sri Lanka (Asia/Colombo)
+ENV TZ=Asia/Colombo
 
 WORKDIR /app
 
@@ -12,7 +18,8 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY --from=0 /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
