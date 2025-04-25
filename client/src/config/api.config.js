@@ -45,6 +45,7 @@ api.interceptors.response.use(
             } catch (error) {
                 toast.error(INTERNAL_SERVER_ERROR)
                 console.log("Not authenticated. error while getting access token via refresh token: ", error)
+                window.location.href = '/login';
             }
         }
         return Promise.reject(error);
