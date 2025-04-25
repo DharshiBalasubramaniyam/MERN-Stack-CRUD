@@ -48,6 +48,7 @@ exports.RegisterWithEmail = async (req, res, next) => {
          secure: false, // TODO: Use true in production with HTTPS
          sameSite: 'strict',
          path: '/auth/',
+         maxAge: 30 * 24 * 60 * 60 * 1000
       });
 
       res.status(201).json({
@@ -111,6 +112,7 @@ exports.ContinueWithGoogle = async (req, res, next) => {
          secure: false, // TODO: Use true in production with HTTPS
          sameSite: 'strict',
          path: '/auth/',
+         maxAge: 30 * 24 * 60 * 60 * 1000
       });
 
       res.status(200).json({
@@ -179,6 +181,7 @@ exports.Login = async (req, res, next) => {
             secure: false, // TODO: Use true in production with HTTPS
             sameSite: 'strict',
             path: '/auth/',
+            maxAge: 30 * 24 * 60 * 60 * 1000
          });
 
          res.status(200).json({
