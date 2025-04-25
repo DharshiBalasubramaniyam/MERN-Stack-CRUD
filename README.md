@@ -2,6 +2,7 @@
 
 <p>
   <img alt="Static Badge" src="https://img.shields.io/badge/Node.js-darkgreen?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Express.js-gray?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/React.js-blue?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/MongoDB-red?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Tailwind.css-purple?style=for-the-badge">
