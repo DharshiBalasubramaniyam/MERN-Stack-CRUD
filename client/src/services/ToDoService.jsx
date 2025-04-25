@@ -10,10 +10,11 @@ function ToDoService() {
     const [searchParams] = useSearchParams();
     const type1 = searchParams.get('type');
     const category1 = searchParams.get('category');
+    const due1 = searchParams.get('due');
 
     const getAllToDo = async () => {
         dispatch(setLoading(true))
-        await api.get(`todo/summary`, { headers: { "authorization": `bearer ${token}` }, params: { type: type1, category: category1 } })
+        await api.get(`todo/summary`, { headers: { "authorization": `bearer ${token}` }, params: { type: type1, category: category1, due: due1 } })
             .then((response) => {
                 dispatch(setError(false))
                 dispatch(setToDos(response.data.tasks))
@@ -53,7 +54,7 @@ function ToDoService() {
                 toast.error((error.response && error.response.data.message) || error.message)
             })
         dispatch(setLoading(false))
-        getAllToDo(type1, category1)
+        getAllToDo()
     }
 
     const editToDo = async (id, task, category, isCompleted, datetime) => {

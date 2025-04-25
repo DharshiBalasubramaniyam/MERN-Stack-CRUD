@@ -83,7 +83,7 @@ exports.deleteToDo = async (req, res, next) => {
 exports.getToDoSummary = async (req, res) => {
     const user = { id: req.headers['x-user-id'] };
     console.log("user in todo service: ", user)
-    const { type, category, pageno, pagesize } = req.query;
+    const { type, category, due, pageno, pagesize } = req.query;
 
 
     const validTypes = ['today', 'overdue', 'upcoming', 'completed'];
@@ -128,10 +128,11 @@ exports.getToDoSummary = async (req, res) => {
 
     try {
         console.log("category is there")
+        const sortOrder = due === '1' || due === '-1' ? parseInt(due) : 1;
         tasks = await ToDo.find({ ...typeFilter, ...categoryFilter, user: user.id })
             // .skip((page - 1) * size)
             // .limit(size)
-            .sort({ datetime: 1 });
+            .sort({ datetime: sortOrder });
 
         const [todayCount, overdueCount, upcomingCount, completedCount] = await Promise.all([
             ToDo.countDocuments({
