@@ -17,11 +17,11 @@ MyTodo is a full-stack, containerized task management application built with a m
 
 1. [Hightlights](#highlights)
 2. [Tech stack](#tech-stack)
-3. [How to run?](#how-to-run-the-project?)
-    -  [Using docker](🐳-using-docker)
-    -  [Manual local setup](💻-without-docker (Manual local setup))
+3. [How to run?](#how-to-run-the-project)
+    -  [Using docker](#-using-docker)
+    -  [Manual local setup](#-without-docker-manual-local-setup)
       
-## Hightlights
+## Highlights
 
 ✅ Microservices architecture (auth-service, todo-service, api-gateway)
 
