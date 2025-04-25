@@ -15,7 +15,7 @@ exports.createToDo = async (req, res, next) => {
         const data = {
             task: task,
             category: category,
-            datetime: datetime,
+            datetime: new Date(datetime).toISOString(),
             user: user.id
         };
 
@@ -53,7 +53,7 @@ exports.editToDo = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Task not found!" });
         }
 
-        const data = { task, category, isCompleted, datetime };
+        const data = { task, category, isCompleted, datetime: new Date(datetime).toISOString() };
         await ToDo.updateOne({ _id: id }, { $set: data });
 
         res.status(200).json({ success: true, message: "Task successfully edited!" });
@@ -83,17 +83,13 @@ exports.deleteToDo = async (req, res, next) => {
 exports.getToDoSummary = async (req, res) => {
     const user = { id: req.headers['x-user-id'] };
     console.log("user in todo service: ", user)
-    const { type, category, due, pageno, pagesize } = req.query;
-
+    const { type, category, due } = req.query;
 
     const validTypes = ['today', 'overdue', 'upcoming', 'completed'];
-    // if (!type || !validTypes.includes(type) || !pageno || !pagesize) {
     if (!type || !validTypes.includes(type)) {
         return res.status(400).json({ error: 'Invalid or missing query parameters.' });
     }
 
-    // const page = parseInt(pageno);
-    // const size = parseInt(pagesize);
     const todayStart = moment().startOf('day').toDate();
     const todayEnd = moment().endOf('day').toDate();
 
@@ -130,8 +126,6 @@ exports.getToDoSummary = async (req, res) => {
         console.log("category is there")
         const sortOrder = due === '1' || due === '-1' ? parseInt(due) : 1;
         tasks = await ToDo.find({ ...typeFilter, ...categoryFilter, user: user.id })
-            // .skip((page - 1) * size)
-            // .limit(size)
             .sort({ datetime: sortOrder });
 
         const [todayCount, overdueCount, upcomingCount, completedCount] = await Promise.all([
