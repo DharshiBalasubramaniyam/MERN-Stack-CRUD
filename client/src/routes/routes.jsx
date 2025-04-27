@@ -30,7 +30,7 @@ function AppContainer() {
         }, [isAuthenticated]);
     
         if (loading) {
-            return <Info message="Loading..."/>; // or a spinner
+            return <Info message="Loading..."/>; 
         }
     
         return <>{children}</>;
@@ -40,9 +40,9 @@ function AppContainer() {
     return (
         <Routes>
             <Route path="/" element={
-                // <ProtectedRoute>
+                <ProtectedRoute>
                     <Home />
-                // </ProtectedRoute>
+                </ProtectedRoute>
             } />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

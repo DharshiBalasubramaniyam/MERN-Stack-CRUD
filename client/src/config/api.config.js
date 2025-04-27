@@ -2,6 +2,7 @@ import axios from 'axios';
 import { logout, setIsAuthenticated, loginSuccess } from '../redux/features/auth';
 import store from '../redux/store/store';
 import toast from 'react-hot-toast';
+import { setCategories } from '../redux/features/category';
 
 export const API_BASE_URL = import.meta.env.BACKEND_URL || "http://localhost:9000/";
 
@@ -24,7 +25,6 @@ api.interceptors.response.use(
         if (error?.response?.status === 403) { // Token expired
             console.log(">>> intercepter: Token expired or not found")
             dispatch(setIsAuthenticated({ isAuthenticated: false }));
-            // await refreshAccessToken(); // Attempt token refresh
             try {
                 const response = await api.post(`auth/refresh_token`, {}, { withCredentials: true }); // Send refresh token via cookie
                 if (response.data.success) {
@@ -38,6 +38,7 @@ api.interceptors.response.use(
                         role: response.data.data.object.role,
                     }
                     dispatch(loginSuccess(userData))
+                    dispatch(setCategories(response.data.data.object.categories))
                     error.config.headers['Authorization'] = `Bearer ${response.data.data.object.accessToken}`;
                     console.log("Retrying resquest")
                     return axios(error.config); // Retry the request
@@ -67,6 +68,7 @@ export const refreshAccessToken = async (dispatch) => {
                 role: response.data.data.object.role,
             }
             dispatch(loginSuccess(userData))
+            dispatch(setCategories(response.data.data.object.categories))
         }
         console.log(">>> Refresh token pass")
     } catch (error) {

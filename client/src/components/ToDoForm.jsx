@@ -1,16 +1,15 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { categories } from "./Categories";
-import ToDoContext from "../contexts/ToDoContext";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ToDoService from "../services/ToDoService";
 import { setToDo } from "../redux/features/todo";
 
 function ToDoForm({ onCancel }) {
 
+    const { categories } = useSelector(state => state.category)
+    const [toDoData, setToDoData] = useState({ task: "", category: categories[0], datetime: getCurrentDateTime(new Date()) });
     const { todo } = useSelector(state => state.todo)
     const { addToDo, editToDo } = ToDoService()
     const dispatch = useDispatch();
-    const [toDoData, setToDoData] = useState({ task: "", category: categories[0].name, datetime: getCurrentDateTime(new Date()) });
     const taskInput = useRef()
 
     useEffect(() => {
@@ -68,7 +67,7 @@ function ToDoForm({ onCancel }) {
             >
                 <h1 className="text-lg font-bold">{todo ? "Edit" : "New"} TODO</h1>
                 <select
-                    className="p-3 border-2 border-blue-900 text-blue-950 focus:ring-2 focus:ring-blue-500 outline-none rounded-l"
+                    className="capitalize p-3 border-2 border-blue-900 text-blue-950 focus:ring-2 focus:ring-blue-500 outline-none rounded-l"
                     name="category"
                     value={toDoData.category}
                     onChange={(e) => handleInputChange(e.target.name, e.target.value)}
@@ -77,10 +76,10 @@ function ToDoForm({ onCancel }) {
                         categories.map((category) => {
                             return (
                                 <option
-                                    value={category.name}
-                                    key={category.name}
+                                    value={category}
+                                    key={category}
                                 >
-                                    {category.name}
+                                    {category}
                                 </option>
                             )
                         })

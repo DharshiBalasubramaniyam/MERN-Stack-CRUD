@@ -59,7 +59,8 @@ exports.RegisterWithEmail = async (req, res, next) => {
                email: newUser.email,
                phone: newUser.phone,
                accessToken: accessToken,
-               role: newUser.role
+               role: newUser.role,
+               categories: newUser.categories || []
             },
             message: 'Login successful'
          },
@@ -123,7 +124,8 @@ exports.ContinueWithGoogle = async (req, res, next) => {
                email: existingUser.email,
                phone: existingUser.phone,
                accessToken: accessToken,
-               role: existingUser.role
+               role: existingUser.role,
+               categories: existingUser.categories || []
             },
             message: 'Login successful'
          },
@@ -192,7 +194,8 @@ exports.Login = async (req, res, next) => {
                   email: user.email,
                   phone: user.phone,
                   accessToken: accessToken,
-                  role: user.role
+                  role: user.role,
+                  categories: user.categories || []
                },
                message: 'Login successful'
             },
@@ -248,7 +251,8 @@ exports.RefreshToken = async (req, res, next) => {
                   email: storedUser.email,
                   phone: storedUser.phone,
                   accessToken: newAccessToken,
-                  role: storedUser.role
+                  role: storedUser.role,
+                  categories: storedUser.categories || []
                },
                message: 'Refresh successful'
             },

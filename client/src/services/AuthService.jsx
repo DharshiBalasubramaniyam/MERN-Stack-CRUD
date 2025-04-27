@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, logout } from '../redux/features/auth';
 import { api } from '../config/api.config';
+import { setCategories } from '../redux/features/category';
 
 export function AuthService() {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export function AuthService() {
                     role: response.data.data.object.role,
                 }
                 dispatch(loginSuccess(userData))
+                dispatch(setCategories(response.data.data.object.categories))
                 toast.success("Login successful!");
                 navigate(`/?type=today&category=&due=1`);
             }
@@ -43,6 +45,7 @@ export function AuthService() {
                     role: response.data.data.object.role,
                 }
                 dispatch(loginSuccess(userData))
+                dispatch(setCategories(response.data.data.object.categories))
                 toast.success("Login successful!");
                 navigate(`/?type=today&category=&due=1`);
             }
@@ -65,6 +68,7 @@ export function AuthService() {
                     role: response.data.data.object.role,
                 }
                 dispatch(loginSuccess(userData))
+                dispatch(setCategories(response.data.data.object.categories))
                 toast.success("Login successful!");
                 navigate(`/?type=today&category=&due=1`);
             }

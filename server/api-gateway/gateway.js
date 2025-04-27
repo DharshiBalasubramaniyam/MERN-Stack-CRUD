@@ -27,6 +27,12 @@ app.use('/todo', authenticate, createProxyMiddleware({
    pathRewrite: {'^/todo': ''}
 }))
 
+app.use('/user', authenticate, createProxyMiddleware({
+   target: process.env.USER_SERVICE_URL || "http://localhost:9003",
+   changeOrigin: true,
+   pathRewrite: {'^/user': ''}
+}))
+
 app.listen(port, () => {
    console.log("Connected to port " + port)
 })

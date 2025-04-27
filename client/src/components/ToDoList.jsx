@@ -1,78 +1,20 @@
-import { useContext, useEffect, useState } from 'react';
 import ToDoItem from './ToDoItem';
 import Info from './Info';
-import ToDoContext from '../contexts/ToDoContext';
-import { isToday, isAfter, isBefore } from 'date-fns';
 import Filter from './Filter';
 import { useSelector } from 'react-redux';
 import ToDoService from '../services/ToDoService';
+import { memo } from 'react';
 
-function ToDoList() {
+const ToDoList = () => {
 
-    // const { allTodos, getAllToDo, editToDo, deleteToDo, getToDoById, loading, error } = useContext(ToDoContext)
     const { todos, loading, error } = useSelector(state => state.todo);
-    const { getAllToDo, editToDo, deleteToDo, getToDoById } = ToDoService()
-    const [filteredTodos, setFilteredTodos] = useState([]);
-    const [todayCount, setTodayCount] = useState(0);
-    const [upcomingCount, setUpcomingCount] = useState(0);
-    const [overdueCount, setOverdueCount] = useState(0);
-    const [completedCount, setCompletedCount] = useState(0);
-    const [filterOption, setFilterOption] = useState("today");
-
-    // useEffect(() => {
-    //     getAllToDo()
-    // }, [])
-
-    // useEffect(() => {
-    //     let today = 0;
-    //     let upcoming = 0;
-    //     let overdue = 0;
-    //     let completed = 0;
-    //     const now = new Date();
-    //     console.log("todos updated: ", todos)
-    //     const filter = todos?.filter(task => {
-    //         const due = new Date(task.datetime); 
-
-    //         if (task.isCompleted) completed++;
-
-    //         if (isToday(due) && !task.isCompleted) today++;
-    //         else if (isAfter(due, now) && !isToday(due) && !task.isCompleted) upcoming++;
-    //         else if (isBefore(due, now) && !isToday(due) && !task.isCompleted) overdue++;
-
-    //         switch (filterOption) {
-    //             case "today":
-    //                 return isToday(due) && !task.isCompleted;
-    //             case "upcoming":
-    //                 return isAfter(due, now) && !isToday(due) && !task.isCompleted;
-    //             case "overdue":
-    //                 return isBefore(due, now) && !isToday(due) && !task.isCompleted;
-    //             case "completed":
-    //                 return task.isCompleted;
-    //             default:
-    //                 return true;
-    //         }
-    //     });
-    //     console.log(filter)
-    //     setFilteredTodos(filter)
-    //     setTodayCount(today);
-    //     setUpcomingCount(upcoming);
-    //     setOverdueCount(overdue);
-    //     setCompletedCount(completed);
-    // }, [todos, filterOption])
+    const { editToDo, deleteToDo, getToDoById } = ToDoService()
 
     console.log(todos)
 
     return (
         <section className="my-4 px-3 md:px-8">
-            <Filter
-                filterOption={filterOption}
-                setFilterOption={setFilterOption}
-                todayCount={todayCount}
-                overdueCount={overdueCount}
-                upcomingCount={upcomingCount}
-                completedCount={completedCount}
-                allCount={todos?.length}
-            />
+            <Filter />
             {
                 loading ? (
                     <Info message="Loading..." />
@@ -95,4 +37,4 @@ function ToDoList() {
 }
 
 
-export default ToDoList;
+export default memo(ToDoList);

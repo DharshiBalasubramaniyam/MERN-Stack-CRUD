@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { AuthService } from "../services/AuthService";
+import CategoryWrapper from "./CategoryWrapper";
 
 function Header() {
     const { username, email } = useSelector((state) => state.auth)
     const [isUserMenuOpen, setUserMenuOpen] = useState(false)
+    const [isCategoryWrapperOpen, setCategoryWrapperOpen] = useState(false)
     const profileRef = useRef();
     const { logOut } = AuthService();
 
@@ -32,7 +34,7 @@ function Header() {
                     </div>
                     {
                         isUserMenuOpen && (
-                            <div className="absolute top-2/3 right-2 z-50 my-4 text-base list-none bg-bg-light-primary divide-y divide-blue-200 rounded-sm bg-white border shadow-md" id="dropdown-user">
+                            <div className="absolute top-2/3 right-2 z-20 my-4 text-base list-none bg-bg-light-primary divide-y divide-blue-200 rounded-sm bg-white border shadow-md" id="dropdown-user">
                                 <div className="px-4 py-3" role="none">
                                     <p className="text-xl text-text-light-primary dark:text-text-dark-primary capitalize" role="none">
                                         {username}
@@ -42,8 +44,17 @@ function Header() {
                                         {email}
                                     </p>
 
-
                                 </div>
+                                <ul className="py-1" role="none">
+                                    <li onClick={() => setCategoryWrapperOpen(true)}>
+                                        <span className="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Categories</span>
+                                    </li>
+                                </ul>
+                                <ul className="py-1" role="none">
+                                    <li>
+                                        <span className="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Profile</span>
+                                    </li>
+                                </ul>
                                 <ul className="py-1" role="none">
                                     <li onClick={logOut}>
                                         <span className="block px-4 py-2 text-sm hover:bg-blue-100 cursor-pointer" role="menuitem">Sign out</span>
@@ -54,6 +65,7 @@ function Header() {
                     }
                 </div>
             </div>
+            {isCategoryWrapperOpen && <CategoryWrapper onClose={() => setCategoryWrapperOpen(false)}/>}
         </div>
     )
 }

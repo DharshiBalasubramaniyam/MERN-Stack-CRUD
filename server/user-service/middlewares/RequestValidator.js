@@ -9,8 +9,11 @@ exports.validateToDoRequest = (type, req, res, next) => {
         errors.push("Task name must be at least 3 characters long!")
     }
 
+    const validCategories = ['Work', 'Personal', 'Home', 'Urgent'];
     if (!category) {
         errors.push("Category is required!");
+    } else if (!validCategories.includes(category)) {
+        errors.push(`Invalid category. Please use one of the following: ${validCategories.join(', ')}.`);
     }
 
     if (type === "edit" && isCompleted === undefined) {

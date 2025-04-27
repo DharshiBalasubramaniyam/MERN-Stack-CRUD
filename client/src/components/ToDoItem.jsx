@@ -1,5 +1,4 @@
 import { FaCheckCircle, FaCircle, FaPen, FaTrashAlt } from 'react-icons/fa';
-import { categories } from './Categories';
 import {
     isToday,
     isTomorrow,
@@ -27,21 +26,9 @@ function ToDoItem({ todo, deleteToDo, editToDo, getToDoById }) {
             <div className='flex *:text-blue-950 items-center w-full'>
                 <p className='flex-1'>
                     <span className='capitalize'>{todo.task}</span>
-                    {
-                        categories.map((category) => {
-                            if (category.name === todo.category) {
-                                const { border, text, bg } = category.style || {};
-                                return (
-                                    <span
-                                        className={`px-2 py-0 rounded-full border-2 ${border} ${text} ${bg} ml-2 text-xs`}
-                                        key={category.name}
-                                    >
-                                        {category.name}
-                                    </span>
-                                )
-                            }
-                        })
-                    }
+                    <span className={`px-2 py-0 capitalize rounded-full border-2 border-yellow-700 text-yellow-700 bg-yellow-200 ml-2 text-xs`}>
+                    {todo.category.charAt(0).toUpperCase() + todo.category.slice(1).toLowerCase()}
+                    </span>
                 </p>
 
                 <p className='flex items-center *:p-2 *:rounded *:transition-all *:duration-100'>
@@ -81,7 +68,7 @@ export function categorizeDate(input) {
     const date = new Date(input);
     const today = new Date();
     const diff = differenceInCalendarDays(date, today);
-    const formattedDate = formatDateTime(input); 
+    const formattedDate = formatDateTime(input);
     const time = format(new Date(date), "hh:mm a")
 
 

@@ -23,6 +23,7 @@ function ToDoService() {
             .catch((error) => {
                 dispatch(setError(true));
                 dispatch(setToDos(null))
+                console.log(error)
                 toast.error((error.response && error.response.data.message) || error.message)
             })
         dispatch(setLoading(false))

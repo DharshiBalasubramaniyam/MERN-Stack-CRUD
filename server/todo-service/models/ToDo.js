@@ -7,7 +7,6 @@ const ToDoSchema = mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['Work', 'Personal', 'Home', 'Urgent'],
         required: true
     },
     isCompleted: {
