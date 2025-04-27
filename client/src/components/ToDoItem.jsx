@@ -26,8 +26,8 @@ function ToDoItem({ todo, deleteToDo, editToDo, getToDoById }) {
             <div className='flex *:text-blue-950 items-center w-full'>
                 <p className='flex-1'>
                     <span className='capitalize'>{todo.task}</span>
-                    <span className={`px-2 py-0 capitalize rounded-full border-2 border-yellow-700 text-yellow-700 bg-yellow-200 ml-2 text-xs`}>
-                    {todo.category.charAt(0).toUpperCase() + todo.category.slice(1).toLowerCase()}
+                    <span className={`px-2 py-0 capitalize rounded-full border border-indigo-700 text-indigo-700 bg-indigo-200 ml-2 text-xs`}>
+                        {todo.category.charAt(0).toUpperCase() + todo.category.slice(1).toLowerCase()}
                     </span>
                 </p>
 

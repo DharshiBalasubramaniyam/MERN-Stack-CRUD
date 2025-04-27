@@ -46,6 +46,19 @@ services:
     depends_on:
       - mongo
 
+  user-service:
+    build:
+      context: ./server/user-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9003:9003"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
   client:
     build:
       context: ./client
@@ -55,15 +68,3 @@ services:
     ports:
       - "5173:80"
     
-  mongo:
-    image: mongo:5.0
-    container_name: mongo
-    networks:
-      - default
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:

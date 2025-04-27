@@ -61,7 +61,7 @@ export default CategoryWrapper;
 
 function CategoryItem({ name, onEdit, onDelete }) {
    return (
-      <div className='flex items-center justify-between w-full p-2 mb-2 border hover:bg-gray-100'>
+      <div key={name} className='flex items-center justify-between w-full p-2 mb-2 border hover:bg-gray-100'>
          <p className='flex-1 capitalize'>{name}</p>
          <p className='flex items-center *:p-2 *:rounded *:transition-all *:duration-100'>
             <span className='hover:bg-blue-100' onClick={() => onEdit(name)}>
