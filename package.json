@@ -1,0 +1,14 @@
+{
+   "name": "mytodo",
+   "scripts": {
+      "start-user": "npm start --prefix server/user-service",
+      "start-auth": "npm start --prefix server/auth-service",
+      "start-todo": "npm start --prefix server/todo-service",
+      "start-gateway": "npm start --prefix server/api-gateway",
+      "start-server": "concurrently \"npm run start-user\" \"npm run start-auth\" \"npm run start-todo\" \"npm run start-gateway\"",
+      "start-client": "npm run dev --prefix client"
+   },
+   "dependencies": {
+      "concurrently": "^9.1.2"
+   }
+}
