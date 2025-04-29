@@ -1,0 +1,64 @@
+version: '3.8'
+
+networks:
+  default:
+    name: mytodo-network
+    driver: bridge
+
+services:
+  api-gateway:
+    build:
+      context: ./server/api-gateway
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env.docker
+    depends_on:
+      - auth-service
+      - todo-service
+
+  auth-service:
+    build:
+      context: ./server/auth-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9002:9002"
+    env_file:
+      - .env.docker
+
+  todo-service:
+    build:
+      context: ./server/todo-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9001:9001"
+    env_file:
+      - .env.docker
+
+  user-service:
+    build:
+      context: ./server/user-service
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "9003:9003"
+    env_file:
+      - .env.docker
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - default
+    ports:
+      - "5173:80"
+    

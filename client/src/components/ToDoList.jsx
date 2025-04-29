@@ -1,34 +1,35 @@
-import { useContext, useEffect } from 'react';
 import ToDoItem from './ToDoItem';
 import Info from './Info';
-import ToDoContext from '../contexts/ToDoContext';
+import Filter from './Filter';
+import { useSelector } from 'react-redux';
+import ToDoService from '../services/ToDoService';
+import { memo } from 'react';
 
-function ToDoList() {
+const ToDoList = () => {
 
-    const {allTodos, getAllToDo, editToDo, deleteToDo, getToDoById, loading, error} = useContext(ToDoContext)
+    const { todos, loading, error } = useSelector(state => state.todo);
+    const { editToDo, deleteToDo, getToDoById } = ToDoService()
 
-    useEffect(() => {
-        getAllToDo()
-    }, [])
+    console.log(todos)
 
-    return(
-        <section className="my-4 mx-8">
-
-           {
+    return (
+        <section className="my-4 px-3 md:px-8">
+            <Filter />
+            {
                 loading ? (
                     <Info message="Loading..." />
                 ) : (
-                        allTodos && allTodos.map((todo) => {
-                            return <ToDoItem todo={todo} key={todo._id} deleteToDo={deleteToDo} editToDo={editToDo} getToDoById={getToDoById}/>
-                        })
-                    )    
-           }
-           {
-                allTodos && allTodos.length === 0 && <Info message="You have no tasks to complete!" />
-           }
-           {
+                    todos && todos.map((todo) => {
+                        return <ToDoItem todo={todo} key={todo._id} deleteToDo={deleteToDo} editToDo={editToDo} getToDoById={getToDoById} />
+                    })
+                )
+            }
+            {
+                todos && todos.length === 0 && <Info message="No tasks to found!" />
+            }
+            {
                 !loading && error && <Info message="Unable to process your request now. Please try again later!" />
-           }
+            }
 
         </section>
     )
@@ -36,4 +37,4 @@ function ToDoList() {
 }
 
 
-export default ToDoList;
+export default memo(ToDoList);

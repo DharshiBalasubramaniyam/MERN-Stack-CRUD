@@ -5,7 +5,11 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        AfacadFlux: ['Afacad Flux', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

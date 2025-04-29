@@ -1,0 +1,53 @@
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: user-service
+  namespace: default 
+  labels:
+    app: user-service 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels:
+      app: user-service
+  template: 
+    metadata: 
+      labels: 
+        app: user-service
+    spec:
+      containers: 
+        - name: user-service-container
+          image: dharshib/mytodo-user:v1
+          ports:
+            - containerPort: 9003
+          env:
+            - name: USER_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: USER_SERVICE_PORT
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-server-secret
+                  key: MONGODB_URL
+
+---
+
+# Service
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: user-service 
+  namespace: default 
+spec: 
+  selector:
+    app: user-service
+  ports:
+    - protocol: TCP
+      port: 9003
+      targetPort: 9003
+  type: ClusterIP

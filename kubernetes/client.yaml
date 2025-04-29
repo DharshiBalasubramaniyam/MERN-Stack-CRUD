@@ -1,0 +1,49 @@
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: client
+  namespace: default 
+  labels:
+    app: client 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels:
+      app: client
+  template: 
+    metadata: 
+      labels: 
+        app: client
+    spec:
+      containers: 
+        - name: client-container
+          image: dharshib/mytodo-client:v1
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: env-config-volume
+              mountPath: /usr/share/nginx/html/env_config.js
+              subPath: env_config.js
+      volumes:
+        - name: env-config-volume
+          secret:
+            secretName: mytodo-client-secret
+---
+
+# Service
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: client-service 
+  namespace: default 
+spec: 
+  selector:
+    app: client
+  ports:
+    - protocol: TCP
+      port: 80 
+      targetPort: 80
+  type: ClusterIP
