@@ -4,15 +4,16 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Node.js-darkgreen?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Express.js-gray?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/MongoDB-lightgreen?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/JWT-orange?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/React.js-darkblue?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Redux-purple?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Tailwind.css-white?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Docker-blue?style=for-the-badge">
   <img alt="Static Badge" src="https://img.shields.io/badge/Docker%20Compose-hotpink?style=for-the-badge">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Kubernetes-maroon?style=for-the-badge">
 </p>
 
-MyTodo is a full-stack, containerized task management application built with a microservices architecture. It features a clean React frontend, a secure authentication system using JWT, and backend services for managing user tasks—all connected through an API Gateway and orchestrated via Docker Compose.
-
+MyTodo is a full-stack ToDo application built using the **MERN stack** with a **microservices architecture**, featuring centralized authentication and routing, Dockerized deployment, and production-ready **Kubernetes orchestration**.
 ## Table of contents
 
 1. [Hightlights](#highlights)
@@ -25,23 +26,23 @@ MyTodo is a full-stack, containerized task management application built with a m
       
 ## Highlights
 
-✅ **Microservices** architecture (auth-service, todo-service, user-service, api-gateway)
+- ✅ **Microservices** architecture (auth-service, todo-service, user-service, api-gateway)
 
-🌐 **API Gateway** for centralized routing, authentication middleware, and request forwarding.
+- 🌐 **API Gateway** for centralized routing, authentication middleware, and request forwarding.
 
-🔐 **JWT-based** authentication with refresh tokens
+- 🔐 **JWT-based** authentication with refresh tokens
 
-🧠 **MongoDB** for persistent, schema-less data storage
+- 🧠 **MongoDB** for persistent, schema-less data storage
 
-⚙️ All components containerized and orchestrated using **Docker Compose**.
+- 💅 Responsive frontend using **React** + **TailwindCSS**
 
-💅 Responsive frontend using **React** + **TailwindCSS**
+- ⚛️ **Redux** for efficient UI and state handling
 
-⚛️ **Redux** for efficient UI and state handling
+- ⚙️ All components containerized and orchestrated using **Docker Compose**.
 
-☸️ Fully deployable with **Kubernetes** manifests (Deployments, Services, Ingress, ConfigMaps, Secrets).
+- ☸️ Fully deployable with **Kubernetes** manifests (Deployments, Services, Ingress, ConfigMaps, Secrets).
 
-### 🔑 Features
+## Features
 
 - **🔐 Authentication**
   - Register and log in using email and password
@@ -60,24 +61,23 @@ MyTodo is a full-stack, containerized task management application built with a m
 
 ## Tech stack
 
-**💅 Frontend**: React + Vite + TailwindCSS
+- **💅 Frontend**: React + Vite + TailwindCSS
 
-**🌐 API Gateway**: Node.js + Express 
+- **🌐 API Gateway**: Node.js + Express 
 
-**🔐 Auth Service**: Node.js + Express + JWT + MongoDB
+- **🔐 Auth Service**: Node.js + Express + JWT + MongoDB
 
-**✅ Todo Service**: Node.js + Express + MongoDB
+- **✅ Todo Service**: Node.js + Express + MongoDB
 
-**👤 User Service**: Node.js + Express + MongoDB
+- **👤 User Service**: Node.js + Express + MongoDB
 
-**🧠 Database**: MongoDB ATLAS
+- **🧠 Database**: MongoDB ATLAS
 
-**⚙️ Containeriztion**: Docker, Docker Compose
+- **⚙️ Containeriztion**: Docker, Docker Compose
 
-**☸️ Orchestration**: Kubernetes (YAML Manifests)
+- **☸️ Orchestration**: Kubernetes (YAML Manifests)
 
-**🔄 CI/CD**: GitHub Actions
-
+- **🔄 CI/CD**: GitHub Actions
 
 ## Project structure
 
@@ -158,7 +158,7 @@ data:
   REFRESH_TOKEN_SECRET: YOUR_TOKEN
   MONGODB_URL: YOUR_CONNECTION_STRING
 ```
-  - Since Vite apps can't read environment variables at runtime after being built, During build time, we set a placeholder for env variables and at runtime (in Kubernetes), mount a Secret as a [config file](./client/public/env_config.js), and the app fetches it dynamically. You do not need to update the `window.__RUNTIME_CONFIG__` in the [env_config.js](./client/public/env_config.js). We will change that object by mounting Secret as a volume during K8s deployment.
+  - Since Vite apps can't read environment variables at runtime after being built, During build time, we set a placeholder for env variables and at runtime (in Kubernetes), mount a Secret as a [config file](./client/public/env_config.js), and the app fetches it dynamically. You do not need to update the `window.__RUNTIME_CONFIG__` in the [env_config.js](./client/public/env_config.js). We will change that object by mounting Secret as a volume during K8s deployment. Sample object you need to provide:
 ```js
 window.__RUNTIME_CONFIG__ = {
    VITE_BACKEND_URL: "http://myapp.local.com/api/",
@@ -172,14 +172,14 @@ data:
     BASE64_OF_MODIFIED_window.__RUNTIME_CONFIG__
 ```
 
-  - The ports and service urls are already provided in the [./kubernetes/config-map.yaml](./kubernetes/config-map.yaml).
+  - The ports and service urls are already configured in the [./kubernetes/config-map.yaml](./kubernetes/config-map.yaml).
 
 **3. Setting up docker images**
 
   - There are 2 Github Actions workflows configured in this project for building and pushing docker images to dockerhub.
-    - [auto-docker-build-push](./.github/workflows/auto-docker-build-push.yaml) - This workflow automatically triggers when there is a push to the main branch.It detects which parts (client and microservices) of the project have changed, and only builds and pushes the respective Docker images for the affected services.
+    - [auto-docker-build-push](./.github/workflows/auto-docker-build-push.yaml) - This workflow automatically triggers when there is a push to the main branch. It detects which parts (client and microservices) of the project have changed, and only builds and pushes the respective Docker images for the affected services.
     - [manual-docker-build-push](./.github/workflows/manual-docker-build-push.yaml) - This workflow allows you to manually trigger a build and push for all Docker images (client and all server services), regardless of changes. You can start this workflow whenever needed from the GitHub Actions UI.
-  - You can trigger second workflow from GitHub Actions UI to build and push the docker images of all components for first time. And after onwards for each push first workflow detect changed components and, build and push those.
+  - You can trigger second workflow from GitHub Actions UI to build and push the docker images of all components for the first time. 
   - Before triggering workflows, set `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` in your github repository secrets. 
   - After pushing images, replace placeholder `<YOUR_DOCKER_USERNAME>` in [api-gateway.yaml](./kubernetes/api-gateway.yaml), [auth-service.yaml](./kubernetes/auth-service.yaml), [todo-service.yaml](./kubernetes/todo-service.yaml), [user-service.yaml](./kubernetes/user-service.yaml), [client.yaml](./kubernetes/client.yaml), with your username, to which you pushed docker images.
 
@@ -205,7 +205,7 @@ kubectl apply -f user-service.yaml
 kubectl apply -f client.yaml
 ```
   - Create ingress
-    - Make sure you have installed ingress controller. I have used `ingress-nginx-controller`. If you use different one, Replace `ingressClassName` in [`ingress.yaml`](./kubernetes/ingress.yaml) according to your controller.
+    - Make sure you have installed ingress controller. I have used `ingress-nginx-controller`. If you use different one, replace `ingressClassName` in [`ingress.yaml`](./kubernetes/ingress.yaml) according to your controller.
     - The ingress is listening for 2 paths.
       - Route `/`: client
       - Route `/api`: api-gateway  (prefix `/api` is stripped before reaching the gateway)
@@ -227,11 +227,11 @@ kubectl apply -f ingress.yaml
 > On Linux/macOS, the hosts file is at /etc/hosts. 
 On Windows, it is at C:\Windows\System32\drivers\etc\hosts.
 
- - Access application.
-  - Now we are done.
-  - Open a browser and hit [http://myapp.local.com/](http://myapp.local.com/).
-  - You should now see your deployed MyTodo application running on Kubernetes!
-  - You can now register, log in, and manage your tasks.
+ - Access the application.
+    - Now we are done.
+    - Open a browser and hit [http://myapp.local.com/](http://myapp.local.com/).
+    - You should now see your deployed MyTodo application running on Kubernetes!
+    - You can now register, log in, and manage your tasks.
 
 ### 🐳 Using Docker
 
