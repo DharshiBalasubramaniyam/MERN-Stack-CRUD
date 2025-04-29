@@ -1,5 +1,8 @@
 name: Build and Push Only Changed Services
 
+# This workflow automatically triggers when there is a push to the main branch. 
+# It detects which parts (client and microservices) of the project have changed,
+# and only builds and pushes the respective Docker images for the affected services.
 on:
   push:
     branches:

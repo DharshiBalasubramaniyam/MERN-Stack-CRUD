@@ -1,0 +1,49 @@
+name: Manual Build and Push
+
+# This workflow allows you to manually trigger a build and push for all Docker images (client and all server services),
+# regardless of changes. 
+# You can start this workflow whenever needed from the GitHub Actions UI.
+on:
+  workflow_dispatch: 
+  
+jobs:
+  build-and-push-all:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Docker login
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
+
+      - name: Build and push mytodo-client
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/mytodo-client:latest ./client
+          docker push $DOCKERHUB_USERNAME/mytodo-client:latest
+
+      - name: Build and push mytodo-gateway
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/mytodo-gateway:latest ./server/api-gateway
+          docker push $DOCKERHUB_USERNAME/mytodo-gateway:latest
+
+      - name: Build and push mytodo-auth
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/mytodo-auth:latest ./server/auth-service
+          docker push $DOCKERHUB_USERNAME/mytodo-auth:latest
+
+      - name: Build and push mytodo-todo
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/mytodo-todo:latest ./server/todo-service
+          docker push $DOCKERHUB_USERNAME/mytodo-todo:latest
+
+      - name: Build and push mytodo-user
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/mytodo-user:latest ./server/user-service
+          docker push $DOCKERHUB_USERNAME/mytodo-user:latest
