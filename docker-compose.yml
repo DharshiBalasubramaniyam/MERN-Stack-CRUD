@@ -15,7 +15,7 @@ services:
     ports:
       - "9000:9000"
     env_file:
-      - .env
+      - .env.docker
     depends_on:
       - auth-service
       - todo-service
@@ -29,9 +29,7 @@ services:
     ports:
       - "9002:9002"
     env_file:
-      - .env
-    depends_on:
-      - mongo
+      - .env.docker
 
   todo-service:
     build:
@@ -42,9 +40,7 @@ services:
     ports:
       - "9001:9001"
     env_file:
-      - .env
-    depends_on:
-      - mongo
+      - .env.docker
 
   user-service:
     build:
@@ -55,9 +51,7 @@ services:
     ports:
       - "9003:9003"
     env_file:
-      - .env
-    depends_on:
-      - mongo
+      - .env.docker
 
   client:
     build:

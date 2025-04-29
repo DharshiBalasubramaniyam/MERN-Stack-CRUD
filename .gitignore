@@ -115,6 +115,7 @@ server/.env
 
 # Ignore .env files in both client and server directories
 **/.env
+**/.env.docker
 
 # Ignore my todo file of this project
 TODO
