@@ -1,0 +1,90 @@
+name: Build and Push Only Changed Services
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Detect changed services
+        id: detect
+        run: |
+          echo "🔍 Detecting changed services..."
+
+          # Get all changed paths between commits
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          # Initialize empty list
+          SERVICES=""
+
+          # Detect client changes
+          if echo "$CHANGED" | grep -q '^client/'; then
+            SERVICES="$SERVICES mytodo-client"
+          fi
+
+          # Detect service changes inside server/
+          if echo "$CHANGED" | grep -q '^server/api-gateway/'; then
+            SERVICES="$SERVICES mytodo-gateway"
+          fi
+          if echo "$CHANGED" | grep -q '^server/auth-service/'; then
+            SERVICES="$SERVICES mytodo-auth"
+          fi
+          if echo "$CHANGED" | grep -q '^server/todo-service/'; then
+            SERVICES="$SERVICES mytodo-todo"
+          fi
+          if echo "$CHANGED" | grep -q '^server/user-service/'; then
+            SERVICES="$SERVICES mytodo-user"
+          fi
+
+          # Trim whitespace and make list unique
+          SERVICES=$(echo "$SERVICES" | xargs -n1 | sort -u | xargs)
+          echo "Services to build and push: $SERVICES"
+
+          # Export for next step
+          echo "services=$SERVICES" >> $GITHUB_OUTPUT
+
+      - name: Build and push changed Docker images
+        if: steps.detect.outputs.services != ''
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
+
+          for IMAGE in ${{ steps.detect.outputs.services }}; do
+            case "$IMAGE" in
+              mytodo-client)
+                docker build -t $DOCKERHUB_USERNAME/$IMAGE:latest ./client
+                docker push $DOCKERHUB_USERNAME/$IMAGE:latest
+                ;;
+              mytodo-gateway)
+                docker build -t $DOCKERHUB_USERNAME/$IMAGE:latest ./server/api-gateway
+                docker push $DOCKERHUB_USERNAME/$IMAGE:latest
+                ;;
+              mytodo-auth)
+                docker build -t $DOCKERHUB_USERNAME/$IMAGE:latest ./server/auth-service
+                docker push $DOCKERHUB_USERNAME/$IMAGE:latest
+                ;;
+              mytodo-todo)
+                docker build -t $DOCKERHUB_USERNAME/$IMAGE:latest ./server/todo-service
+                docker push $DOCKERHUB_USERNAME/$IMAGE:latest
+                ;;
+              mytodo-user)
+                docker build -t $DOCKERHUB_USERNAME/$IMAGE:latest ./server/user-service
+                docker push $DOCKERHUB_USERNAME/$IMAGE:latest
+                ;;
+              *)
+                echo "Unknown image: $IMAGE"
+                ;;
+            esac
+          done
