@@ -20,7 +20,7 @@ app.use("/test", (req, res) => {
 connectDB()
    .then(() => {
       app.listen(port, () => {
-         console.log("Connected to port " + port)
+         console.log("User service running in port " + port)
       })
    })
    .catch((err) => {

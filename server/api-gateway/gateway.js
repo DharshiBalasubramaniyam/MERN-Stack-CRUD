@@ -34,5 +34,5 @@ app.use('/user', authenticate, createProxyMiddleware({
 }))
 
 app.listen(port, () => {
-   console.log("Connected to port " + port)
+   console.log("Api gateway running in port " + port)
 })
