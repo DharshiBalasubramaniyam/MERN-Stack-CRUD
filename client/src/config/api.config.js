@@ -4,7 +4,8 @@ import store from '../redux/store/store';
 import toast from 'react-hot-toast';
 import { setCategories } from '../redux/features/category';
 
-export const API_BASE_URL = import.meta.env.BACKEND_URL || "http://localhost:9000/";
+export const API_BASE_URL = window.__RUNTIME_CONFIG__.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL;
+console.log("backend url from k8s: ", window.__RUNTIME_CONFIG__.VITE_BACKEND_URL);
 
 export const API_CONFIG = {
     baseURL: API_BASE_URL,
