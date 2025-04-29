@@ -13,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-         fetch-depth: 0  # Ensure all commits are fetched
+         fetch-depth: 0 
 
       - name: Detect changed services
         id: detect
         run: |
-          echo "🔍 Detecting changed services..."
+          echo "Detecting changed services..."
 
           # Get all changed paths between commits
           CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
