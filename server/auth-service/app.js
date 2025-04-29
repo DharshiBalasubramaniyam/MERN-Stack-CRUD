@@ -27,7 +27,7 @@ app.use("/test", (req, res) => {
 connectDB()
    .then(() => {
       app.listen(port, () => {
-         console.log("Connected to port " + port)
+         console.log("Auth service running in port " + port)
       })
    })
    .catch((err) => {
