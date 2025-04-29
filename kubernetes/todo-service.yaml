@@ -1,0 +1,53 @@
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: todo-service
+  namespace: default 
+  labels:
+    app: todo-service 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels:
+      app: todo-service
+  template: 
+    metadata: 
+      labels: 
+        app: todo-service
+    spec:
+      containers: 
+        - name: todo-service-container
+          image: dharshib/mytodo-todo:v1
+          ports:
+            - containerPort: 9001
+          env:
+            - name: TODO_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: TODO_SERVICE_PORT
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-secret
+                  key: MONGODB_URL
+
+---
+
+# Service
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: todo-service 
+  namespace: default 
+spec: 
+  selector:
+    app: todo-service
+  ports:
+    - protocol: TCP
+      port: 9001
+      targetPort: 9001
+  type: ClusterIP

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mytodo-config-map
+  namespace: default
+data:
+  VITE_BACKEND_URL: "http://api-gateway:9000/"
+  API_GATEWAY_PORT: "9000"
+  TODO_SERVICE_PORT: "9001"
+  AUTH_SERVICE_PORT: "9002"
+  USER_SERVICE_PORT: "9003"
+  AUTH_SERVICE_URL: "http://auth-service:9002"
+  TODO_SERVICE_URL: "http://todo-service:9001"
+  USER_SERVICE_URL: "http://user-service:9003"

@@ -1,0 +1,68 @@
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: api-gateway
+  namespace: default 
+  labels:
+    app: api-gateway 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels:
+      app: api-gateway
+  template: 
+    metadata: 
+      labels: 
+        app: api-gateway
+    spec:
+      containers: 
+        - name: api-gateway-container
+          image: dharshib/mytodo-gateway:v1
+          ports:
+            - containerPort: 9000
+          env:
+            - name: API_GATEWAY_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: API_GATEWAY_PORT
+            - name: AUTH_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: AUTH_SERVICE_URL
+            - name: TODO_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: TODO_SERVICE_URL
+            - name: USER_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: USER_SERVICE_URL
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-secret
+                  key: ACCESS_TOKEN_SECRET
+
+---
+
+# Service
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: api-gateway 
+  namespace: default 
+spec: 
+  selector:
+    app: api-gateway
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP

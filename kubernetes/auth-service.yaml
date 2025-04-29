@@ -1,0 +1,63 @@
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: auth-service
+  namespace: default 
+  labels:
+    app: auth-service 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels:
+      app: auth-service
+  template: 
+    metadata: 
+      labels: 
+        app: auth-service
+    spec:
+      containers: 
+        - name: auth-service-container
+          image: dharshib/mytodo-auth:v1
+          ports:
+            - containerPort: 9002
+          env:
+            - name: AUTH_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mytodo-config-map
+                  key: AUTH_SERVICE_PORT
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-secret
+                  key: ACCESS_TOKEN_SECRET
+            - name: REFRESH_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-secret
+                  key: REFRESH_TOKEN_SECRET
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mytodo-secret
+                  key: MONGODB_URL
+
+---
+
+# Service
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: auth-service 
+  namespace: default 
+spec: 
+  selector:
+    app: auth-service
+  ports:
+    - protocol: TCP
+      port: 9002
+      targetPort: 9002
+  type: ClusterIP
