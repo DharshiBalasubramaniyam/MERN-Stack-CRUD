@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+         fetch-depth: 0  # Ensure all commits are fetched
 
       - name: Detect changed services
         id: detect
