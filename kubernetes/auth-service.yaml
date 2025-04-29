@@ -31,17 +31,17 @@ spec:
             - name: ACCESS_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: mytodo-secret
+                  name: mytodo-server-secret
                   key: ACCESS_TOKEN_SECRET
             - name: REFRESH_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: mytodo-secret
+                  name: mytodo-server-secret
                   key: REFRESH_TOKEN_SECRET
             - name: MONGODB_URL
               valueFrom:
                 secretKeyRef:
-                  name: mytodo-secret
+                  name: mytodo-server-secret
                   key: MONGODB_URL
 
 ---

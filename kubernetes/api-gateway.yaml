@@ -46,7 +46,7 @@ spec:
             - name: ACCESS_TOKEN_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: mytodo-secret
+                  name: mytodo-server-secret
                   key: ACCESS_TOKEN_SECRET
 
 ---

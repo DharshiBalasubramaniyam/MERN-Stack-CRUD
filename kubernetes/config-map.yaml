@@ -4,7 +4,6 @@ metadata:
   name: mytodo-config-map
   namespace: default
 data:
-  VITE_BACKEND_URL: "http://api-gateway:9000/"
   API_GATEWAY_PORT: "9000"
   TODO_SERVICE_PORT: "9001"
   AUTH_SERVICE_PORT: "9002"
