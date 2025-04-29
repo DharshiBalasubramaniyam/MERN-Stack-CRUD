@@ -6,7 +6,8 @@
       "start-todo": "npm start --prefix server/todo-service",
       "start-gateway": "npm start --prefix server/api-gateway",
       "start-server": "concurrently \"npm run start-user\" \"npm run start-auth\" \"npm run start-todo\" \"npm run start-gateway\"",
-      "start-client": "npm run dev --prefix client"
+      "start-client": "npm run dev --prefix client",
+      "install-all": "npm install && npm install --prefix client && npm install --prefix server/user-service && npm install --prefix server/auth-service && npm install --prefix server/todo-service && npm install --prefix server/api-gateway"
    },
    "dependencies": {
       "concurrently": "^9.1.2"

@@ -21,6 +21,7 @@ MyTodo is a full-stack ToDo application built using the **MERN stack** with a **
 3. [Tech stack](#tech-stack)
 4. [Project structure](#project-structure)
 5. [How to run?](#how-to-run-the-project)
+    -  [Using Kubernetes](#%EF%B8%8F-using-kubernetes)
     -  [Using docker](#-using-docker)
     -  [Manual local setup](#-without-docker-manual-local-setup)
       
