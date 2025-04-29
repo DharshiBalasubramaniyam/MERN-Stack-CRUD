@@ -17,7 +17,8 @@ MyTodo is a full-stack, containerized task management application built with a m
 
 1. [Hightlights](#highlights)
 2. [Tech stack](#tech-stack)
-3. [How to run?](#how-to-run-the-project)
+3. [Project structure](#project-structure)
+4. [How to run?](#how-to-run-the-project)
     -  [Using docker](#-using-docker)
     -  [Manual local setup](#-without-docker-manual-local-setup)
       
@@ -52,6 +53,66 @@ MyTodo is a full-stack, containerized task management application built with a m
 
 **⚙️ DevOps**: Docker, Docker Compose, custom network (bridge)
 
+
+## Project structure
+
+```bash
+├ mytodo
+  ├──client/ # Frontend react + vite application
+  │  ├──nginx/ # Nginx configuration for docker containerization
+  │  │  └──default.conf
+  │  ├──public/ 
+  │  │  └──env_config.js # Runtime environment variables configuration for K8s deployment
+  │  ├──src/
+  │  ├──Dockerfile 
+  │  └──.env # Environment variables configuration for both manual(local) and docker deployment
+  ├──server/ # Collection of microservices
+  │  ├──api-gateway # Handles centralized authentication and routing 
+  │  │  ├──middlewares/
+  │  │  ├──gateway.js
+  │  │  ├──Dockerfile 
+  │  │  └──.env # Environment variables configuration for manual(local) deployment
+  │  ├──auth-service # Handles user registration, login and refresh tokens
+  │  │  ├──config/ # Database connection configuration
+  │  │  ├──controllers/
+  │  │  ├──middlewares/
+  │  │  ├──models/
+  │  │  ├──routes/
+  │  │  ├──utils/
+  │  │  ├──app.js
+  │  │  ├──Dockerfile 
+  │  │  └──.env # Environment variables configuration for manual(local) deployment
+  │  ├──todo-service # Handles todo tasks management
+  │  │  ├──config/ # Database connection configuration
+  │  │  ├──controllers/
+  │  │  ├──middlewares/
+  │  │  ├──models/
+  │  │  ├──routes/
+  │  │  ├──app.js
+  │  │  ├──Dockerfile 
+  │  │  └──.env # Environment variables configuration for manual(local) deployment
+  │  └──user-service # Handles category and profile management
+  │  │  ├──config/ # Database connection configuration
+  │  │  ├──controllers/
+  │  │  ├──middlewares/
+  │  │  ├──models/
+  │  │  ├──routes/
+  │  │  ├──app.js
+  │  │  ├──Dockerfile 
+  │  │  └──.env # Environment variables configuration for manual(local) deployment
+  ├──kubernetes/ # Collection of artifacts for k8s deployment
+  │  ├──api-gateway.yaml # K8s config for api gateway deployment and service
+  │  ├──auth-service.yaml # K8s config for auth service deployment and service 
+  │  ├──todo-service.yaml # K8s config for todo service deployment and service
+  │  ├──user-service.yaml # K8s config for user service deployment and service
+  │  ├──config-map.yaml # K8s config map variables for both server and client
+  │  ├──client-secret.yaml # K8s secrets for client application
+  │  ├──server-secret.yaml # K8s secrets for microservices
+  │  └──ingress.yaml 
+  ├──docker-compose.yml # Docker compose file
+  ├──env.docker # Environment variables of server for docker deployment
+  └──package.json # Centalized script management
+```
 
 ## How to run the project?
 
