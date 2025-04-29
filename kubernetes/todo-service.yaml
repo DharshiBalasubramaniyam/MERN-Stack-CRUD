@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
         - name: todo-service-container
-          image: dharshib/mytodo-todo:v1
+          image: <YOUR_DOCKER_USERNAME>/mytodo-todo:latest
           ports:
             - containerPort: 9001
           env:

@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
         - name: api-gateway-container
-          image: dharshib/mytodo-gateway:v1
+          image: <YOUR_DOCKER_USERNAME>/mytodo-gateway:latest
           ports:
             - containerPort: 9000
           env:

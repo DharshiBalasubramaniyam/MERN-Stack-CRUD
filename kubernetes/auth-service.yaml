@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
         - name: auth-service-container
-          image: dharshib/mytodo-auth:v1
+          image: <YOUR_DOCKER_USERNAME>/mytodo-auth:latest
           ports:
             - containerPort: 9002
           env:

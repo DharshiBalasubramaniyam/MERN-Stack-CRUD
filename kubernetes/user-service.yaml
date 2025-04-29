@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
         - name: user-service-container
-          image: dharshib/mytodo-user:v1
+          image: <YOUR_DOCKER_USERNAME>/mytodo-user:latest
           ports:
             - containerPort: 9003
           env:
