@@ -13,6 +13,8 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Kubernetes-maroon?style=for-the-badge">
 </p>
 
+![mytodo_architecture](https://github.com/user-attachments/assets/7ffb8577-90ec-495e-94af-88a9d01a1c54)
+
 MyTodo is a full-stack ToDo application built using the **MERN stack** with a **microservices architecture**, featuring centralized authentication and routing, Dockerized deployment, and production-ready **Kubernetes orchestration**.
 ## Table of contents
 
